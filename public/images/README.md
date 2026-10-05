@@ -20,6 +20,13 @@ The Hotel Hershey pair is **registered**: the historic photo is cropped to exact
 the area the present-day aerial covers, so the two line up in the slider at any
 screen size. Replacing either photo means redoing that crop.
 
+**Yellow circles.** When the Historical Society marks what to look for with a
+yellow ring (743 & Cocoa's historic aerial), `tools/text_to_landmarks.py` finds
+it automatically and records where it sits (`thenFocus` / `nowFocus` in
+`landmarks.json`). The game then keeps it in view, and if both photos of a pair
+are circled it lines the circles up in the slider. Circled photos also skip the
+app's sepia tint, which would otherwise turn the yellow pale cream.
+
 ## Staged but not yet in the game
 
 These files are in this folder and referenced by nothing. They are waiting on

@@ -15,8 +15,12 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import quote
+
+from yellow_ring import find_ring
 
 ROOT = Path(__file__).resolve().parent.parent
+PUBLIC = ROOT / "public"
 TARGET = ROOT / "public" / "landmarks.json"
 DEFAULT_IN = ROOT / "landmarks-review.txt"
 
@@ -29,6 +33,9 @@ SINGLE = {
     "SHORT TITLE": "shortTitle",
     "PHOTO YEAR": "photoYear",
     "NOW PHOTO YEAR": "nowYear",
+    # Optional per-site scoring; without them the game's standard rules apply.
+    "YEAR SCORING": "yearScoring",
+    "LOCATION SCORING": "locationScoring",
     "HISTORIC LABEL": "historicLabel",
     "MODERN LABEL": "modernLabel",
     "LATITUDE": "lat",
@@ -143,11 +150,38 @@ def parse_block(lines, where):
         l for l in links if l.get("label", "").strip() and l.get("url", "").strip()
     ]
 
-    # A map link is one URL; browsers need the https:// that copies often lose.
+    # A map link is one URL; browsers need the https:// that copies often lose,
+    # and characters like ° and " pasted from the address bar get escaped.
     url = (site.get("googleMapUrl") or "").split()
     if url:
         url = url[0]
-        site["googleMapUrl"] = url if re.match(r"https?://", url) else "https://" + url
+        url = url if re.match(r"https?://", url) else "https://" + url
+        site["googleMapUrl"] = quote(url, safe=":/?&=%#@!$'()*+,;~[]-._")
+
+    # YEAR SCORING: the photo's date as the Society writes it ("circa 1925").
+    # It must contain a year to score against; any words are shown to players
+    # alongside the date on the answer page.
+    ys = (site.get("yearScoring") or "").strip()
+    if ys:
+        if not re.search(r"\b\d{4}\b", ys):
+            raise SystemExit(f"{name()}: YEAR SCORING needs a four-digit year, got {ys!r}")
+        py = site.get("photoYear")
+        year = re.search(r"\b\d{4}\b", ys).group(0)
+        if py and str(py).strip() and str(py).strip() != year:
+            NOTES.append(f": YEAR SCORING ({ys}) overrides PHOTO YEAR ({py}) for scoring")
+        site["yearScoring"] = ys
+
+    # LOCATION SCORING: points lost per mile, e.g. "1 point per mile".
+    ls = (site.get("locationScoring") or "").strip()
+    if ls:
+        m = re.search(r"\d*\.?\d+", ls)
+        if not m:
+            raise SystemExit(
+                f"{name()}: LOCATION SCORING needs a number of points per mile, "
+                f"like '1 point per mile'; got {ls!r}"
+            )
+        site["pointsPerMile"] = float(m.group(0))
+    site.pop("locationScoring", None)
 
     # Blank means "unknown"; numbers become numbers.
     site_name = name()
@@ -176,6 +210,13 @@ def to_json_site(site, ident):
         "shortTitle": site.get("shortTitle") or site.get("title") or "",
         "photoYear": site.get("photoYear"),
         "nowYear": site.get("nowYear"),
+    }
+    if site.get("yearScoring"):
+        out["yearScoring"] = site["yearScoring"]
+    if site.get("pointsPerMile") is not None:
+        n = site["pointsPerMile"]
+        out["pointsPerMile"] = int(n) if n == int(n) else n
+    out |= {
         "lat": site["lat"],
         "lng": site["lng"],
         "hint": site.get("hint") or "",
@@ -193,6 +234,18 @@ def to_json_site(site, ident):
         out["googleMapUrl"] = site["googleMapUrl"]
     if not out["thenImage"]:
         del out["thenImage"]
+
+    # Where a yellow circle sits in each photo, so the game keeps it in view.
+    # Worked out from the image files each run, never typed by hand.
+    for key, focus_key in (("thenImage", "thenFocus"), ("nowImage", "nowFocus")):
+        if out.get(key):
+            path = PUBLIC / out[key]
+            if not path.exists():
+                NOTES.append(f"{out['shortTitle']}: photo file not found: {out[key]}")
+                continue
+            ring = find_ring(path)
+            if ring:
+                out[focus_key] = ring
     return out
 
 
@@ -233,7 +286,15 @@ def main():
     print(f"read {in_path.name}: {len(live) + len(skipped)} sites in file")
     for s in live:
         flags = []
-        if s["photoYear"] is None: flags.append("no photo year")
+        if s.get("yearScoring"):
+            flags.append(f"year: {s['yearScoring']}")
+        elif s["photoYear"] is None:
+            flags.append("no photo year")
+        if s.get("pointsPerMile") is not None:
+            flags.append(f"location: {s['pointsPerMile']} pts/mile")
+        for k, what in (("thenFocus", "then"), ("nowFocus", "now")):
+            if s.get(k):
+                flags.append(f"yellow circle in {what} photo")
         if not s["hint"]:
             flags.append("no hint")
         else:

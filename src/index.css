@@ -70,6 +70,10 @@
   margin: 0;
   cursor: ew-resize;
   opacity: 0;
+  /* The slider now runs the photo's full height, which on a phone can fill the
+     screen. Let an up/down swipe that starts on it scroll the page; left and
+     right still drag the slider. */
+  touch-action: pan-y;
 }
 
 /* --- Answer page --- */

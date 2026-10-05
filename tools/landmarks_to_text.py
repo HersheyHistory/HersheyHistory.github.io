@@ -101,6 +101,14 @@ WHAT EACH LABEL MEANS
                       scored against this. Leave blank if unknown - they
                       then get full marks for the year.
   NOW PHOTO YEAR      Year the present-day photo was taken.
+  YEAR SCORING        Optional. Leave blank to score against PHOTO YEAR as
+                      usual (1 point off per year). Write "circa 1925" when
+                      the date is approximate: a guess in the right decade
+                      scores full marks, and each decade off costs 25.
+                      Any words written here are shown with the date.
+  LOCATION SCORING    Optional. Leave blank for the usual rule (100 points
+                      off per tenth of a mile). For a far-off site, write
+                      e.g. "1 point per mile" or "0.01 points per mile".
   HINT                Shown to players BEFORE they guess. One hint per
                       line; add as many as you like. Do not give away the
                       name of the place.
@@ -126,6 +134,12 @@ def fmt(value):
     return "" if value is None else str(value)
 
 
+def per_mile(n):
+    if n is None:
+        return ""
+    return f"{n} point{'' if n == 1 else 's'} per mile"
+
+
 def block(number, site, note=None):
     lines = [RULE, f"SITE {number}", RULE]
     if note:
@@ -135,6 +149,8 @@ def block(number, site, note=None):
         f"SHORT TITLE: {fmt(site.get('shortTitle'))}",
         f"PHOTO YEAR: {fmt(site.get('photoYear'))}",
         f"NOW PHOTO YEAR: {fmt(site.get('nowYear'))}",
+        f"YEAR SCORING: {fmt(site.get('yearScoring'))}",
+        f"LOCATION SCORING: {per_mile(site.get('pointsPerMile'))}",
         f"HINT: {fmt(site.get('hint'))}",
         f"HISTORIC LABEL: {fmt(site.get('historicLabel'))}",
         f"MODERN LABEL: {fmt(site.get('modernLabel'))}",

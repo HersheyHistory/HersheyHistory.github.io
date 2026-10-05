@@ -43,7 +43,11 @@
         "url": "https://hersheyhistory.pastperfectonline.com/AdvancedSearch?advanceSearchActivated=False&firstTimeSearch=False&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=&searchcat_5=743+cocoa&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=&actionType=Search"
       }
     ],
-    "googleMapUrl": "https://www.google.com/maps/place/232+Peach+Ave,+Hershey,+PA+17033/@40.2687882,-76.6488467,654a,35y,98.05h/data=!3m1!1e3!4m6!3m5!1s0x89c8bb57438289b3:0x3c4482f646d1f67a!8m2!3d40.2678894!4d-76.6519805!16s%2Fg%2F11c194s5_k!5m1!1e4?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
+    "googleMapUrl": "https://www.google.com/maps/place/232+Peach+Ave,+Hershey,+PA+17033/@40.2687882,-76.6488467,654a,35y,98.05h/data=!3m1!1e3!4m6!3m5!1s0x89c8bb57438289b3:0x3c4482f646d1f67a!8m2!3d40.2678894!4d-76.6519805!16s%2Fg%2F11c194s5_k!5m1!1e4?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D",
+    "thenFocus": {
+      "x": 0.588,
+      "y": 0.101
+    }
   },
   {
     "id": 3,
@@ -66,7 +70,7 @@
         "url": "https://hersheyhistory.pastperfectonline.com/AdvancedSearch?advanceSearchActivated=False&firstTimeSearch=False&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=&searchcat_5=police+academy&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=&actionType=Search"
       }
     ],
-    "googleMapUrl": "https://google.com/maps/place/40°16'51.2\"N+76°38'48.0\"W/@40.2808949,-76.6468364,123a,86.4y,31.95h,103.6t/data=!3m7!1e1!3m5!1sVq7TcBTPpEpupmXA5NGoqg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-13.602522506223906%26panoid%3DVq7TcBTPpEpupmXA5NGoqg%26yaw%3D31.946070142163673!7i13312!8i6656!4m4!3m3!8m2!3d40.28089!4d-76.64667?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
+    "googleMapUrl": "https://google.com/maps/place/40%C2%B016'51.2%22N+76%C2%B038'48.0%22W/@40.2808949,-76.6468364,123a,86.4y,31.95h,103.6t/data=!3m7!1e1!3m5!1sVq7TcBTPpEpupmXA5NGoqg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-13.602522506223906%26panoid%3DVq7TcBTPpEpupmXA5NGoqg%26yaw%3D31.946070142163673!7i13312!8i6656!4m4!3m3!8m2!3d40.28089!4d-76.64667?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
   },
   {
     "id": 4,

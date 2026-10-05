@@ -30,12 +30,16 @@ const DERRY_TOWNSHIP_BOUNDS = [
 ];
 
 // --- Scoring -----------------------------------------------------------
-// Location: 1000 points, less 100 for every tenth of a mile off.
-// Year:      100 points, less 1 for every year off.
+// Standard rules, used unless a site sets its own in landmarks.json:
+//   Location: 1000 points, less 100 for every tenth of a mile off.
+//   Year:      100 points, less 1 for every year off.
+// A site can instead set pointsPerMile (for far-off places such as Hershey,
+// Cuba) and/or yearScoring "circa 1925" (25 points off per decade).
 const METERS_PER_MILE = 1609.344;
 const MAX_LOCATION_POINTS = 1000;
 const MAX_YEAR_POINTS = 100;
 const POINTS_PER_TENTH_MILE = 100;
+const POINTS_PER_DECADE = 25;
 const MAX_POINTS_PER_SITE = MAX_LOCATION_POINTS + MAX_YEAR_POINTS;
 
 /** Tenths of a mile, rounded down so a partial tenth is never charged. */
@@ -43,18 +47,73 @@ function tenthsOfAMile(meters) {
   return Math.floor((meters / METERS_PER_MILE) * 10);
 }
 
-function locationPointsFor(meters) {
+function locationPointsFor(meters, site) {
+  if (site.pointsPerMile != null) {
+    // Round the penalty down, so a fraction of a point is never charged.
+    const penalty = Math.floor((site.pointsPerMile * meters) / METERS_PER_MILE);
+    return Math.max(0, MAX_LOCATION_POINTS - penalty);
+  }
   return Math.max(
     0,
     MAX_LOCATION_POINTS - tenthsOfAMile(meters) * POINTS_PER_TENTH_MILE,
   );
 }
 
+/** The year guesses are scored against: YEAR SCORING's year, else PHOTO YEAR. */
+function scoringYear(site) {
+  const m = site.yearScoring && site.yearScoring.match(/\b(\d{4})\b/);
+  if (m) return Number(m[1]);
+  return site.photoYear ?? null;
+}
+
+/** "circa 1925" (or "ca." / "c.") means the date is approximate to the decade. */
+function isCirca(site) {
+  return Boolean(site.yearScoring && /\b(circa|ca\.|c\.)/i.test(site.yearScoring));
+}
+
+/** The date as the Historical Society wrote it, words and all. */
+function dateLabel(site) {
+  if (site.yearScoring) return site.yearScoring;
+  return site.photoYear == null ? "Date unknown" : String(site.photoYear);
+}
+
+/** Decades between two years, counting the decades themselves (1920s vs 1930s). */
+function decadesApart(a, b) {
+  return Math.abs(Math.floor(a / 10) - Math.floor(b / 10));
+}
+
 /** Full credit when the archive has no date on file for the photo. */
-function yearPointsFor(guessYear, photoYear) {
-  if (photoYear == null) return MAX_YEAR_POINTS;
+function yearPointsFor(guessYear, site) {
+  const year = scoringYear(site);
+  if (year == null) return MAX_YEAR_POINTS;
   if (guessYear == null) return 0;
-  return Math.max(0, MAX_YEAR_POINTS - Math.abs(guessYear - photoYear));
+  if (isCirca(site)) {
+    return Math.max(0, MAX_YEAR_POINTS - POINTS_PER_DECADE * decadesApart(guessYear, year));
+  }
+  return Math.max(0, MAX_YEAR_POINTS - Math.abs(guessYear - year));
+}
+
+function formatNumber(n) {
+  return n.toLocaleString("en-US", { maximumFractionDigits: 4 });
+}
+
+/** Plain-English scoring rules for one site. Never mentions the answer. */
+function locationRule(site) {
+  if (site.pointsPerMile != null) {
+    const n = site.pointsPerMile;
+    return `Up to ${formatNumber(MAX_LOCATION_POINTS)} points, minus ${formatNumber(n)} point${n === 1 ? "" : "s"} for every mile you are off.`;
+  }
+  return `Up to ${formatNumber(MAX_LOCATION_POINTS)} points, minus 100 for every tenth of a mile you are off.`;
+}
+
+function yearRule(site) {
+  if (scoringYear(site) == null) {
+    return `Up to ${MAX_YEAR_POINTS} points. The archive has no date for this photo, so every guess scores full marks.`;
+  }
+  if (isCirca(site)) {
+    return `Up to ${MAX_YEAR_POINTS} points. This photo's date is approximate: a guess in the right decade scores full marks, and you lose ${POINTS_PER_DECADE} for each decade you are off.`;
+  }
+  return `Up to ${MAX_YEAR_POINTS} points, minus 1 for every year you are off.`;
 }
 
 /** Great-circle distance between two lat/lng pairs, in meters. */
@@ -331,8 +390,15 @@ export default function App() {
 
   // The archive often has no date for a photo; that reads as "Date unknown"
   // everywhere and scores full year credit.
-  const displayYear =
-    site.photoYear == null ? "Date unknown" : String(site.photoYear);
+  const displayYear = dateLabel(site);
+  const yearScored = scoringYear(site);
+  let yearOutcome;
+  if (yearScored == null) yearOutcome = "No date on file";
+  else if (lastYearGuess == null) yearOutcome = "No year entered";
+  else if (isCirca(site)) {
+    const d = decadesApart(lastYearGuess, yearScored);
+    yearOutcome = d === 0 ? "Right decade" : `${d} decade${d === 1 ? "" : "s"} off`;
+  } else yearOutcome = `${Math.abs(lastYearGuess - yearScored)} yr off`;
   const archiveLinks = site.archiveLinks || [];
   const hints = toLines(site.hint);
   const historyParagraphs = toLines(site.history);
@@ -369,8 +435,8 @@ export default function App() {
     if (!guess) return;
     const distance = haversineMeters(guess.lat, guess.lng, site.lat, site.lng);
     const parsedYear = /^\d{4}$/.test(yearGuess) ? Number(yearGuess) : null;
-    const locationPoints = locationPointsFor(distance);
-    const yearPoints = yearPointsFor(parsedYear, site.photoYear);
+    const locationPoints = locationPointsFor(distance, site);
+    const yearPoints = yearPointsFor(parsedYear, site);
 
     setLastDistance(distance);
     setLastLocationPoints(locationPoints);
@@ -629,9 +695,11 @@ export default function App() {
                     HOW SCORING WORKS
                   </div>
                   <p className="mt-1.5 text-[15px] leading-relaxed text-[#3c2415]/80">
-                    Each site is worth {MAX_POINTS_PER_SITE} points — up to{" "}
-                    <b>{MAX_LOCATION_POINTS} for the location</b>, losing 100
-                    for every tenth of a mile you are off, and up to{" "}
+                    Unless stated at the bottom of the guess page, the scoring
+                    is: each site is worth {formatNumber(MAX_POINTS_PER_SITE)}{" "}
+                    points — up to{" "}
+                    <b>{formatNumber(MAX_LOCATION_POINTS)} for the location</b>,
+                    losing 100 for every tenth of a mile you are off, and up to{" "}
                     <b>{MAX_YEAR_POINTS} for the year</b>, losing 1 point per
                     year. When the archive has no date on file, the year scores
                     full marks.
@@ -664,15 +732,18 @@ export default function App() {
             <div className="hhh-game-layout grid grid-cols-1 gap-5 items-start md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
               <div className="space-y-4">
                 <div className="rounded-[20px] overflow-hidden border-[6px] border-white shadow-[0_12px_32px_rgba(60,36,21,0.15)] bg-[#efe0c6]">
+                  {/* The photo sets its own height, so nothing — least of all a
+                      yellow circle marking what to find — is cropped away. */}
                   <div
                     className="relative w-full bg-gradient-to-br from-[#d4a574] via-[#b88a5a] to-[#8b5a2b]"
-                    style={{ height: "clamp(240px, 40vh, 460px)" }}
+                    style={site.thenImage ? undefined : { height: "clamp(240px, 40vh, 460px)" }}
                   >
                     {site.thenImage && (
                       <img
                         src={assetUrl(site.thenImage)}
                         alt="Historic photograph of the site you are trying to place"
-                        className="absolute inset-0 h-full w-full object-cover sepia"
+                        // sepia would turn a yellow circle pale cream
+                        className={`block w-full h-auto ${site.thenFocus ? "" : "sepia"}`}
                       />
                     )}
                     <div
@@ -792,6 +863,24 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+            {/* The launch page refers players here: "Unless stated at the
+                bottom of the guess page…". Worded so it never gives away the
+                date or the place. */}
+            <section
+              aria-label="How this site is scored"
+              className="hhh-site-scoring mt-5 rounded-2xl border border-[#d4a574]/40 bg-white px-5 py-4 shadow-sm"
+            >
+              <div className="text-[11px] font-black tracking-[0.18em] text-[#8b5a2b]">
+                HOW THIS SITE IS SCORED
+              </div>
+              <dl className="mt-2 grid gap-x-4 gap-y-1.5 text-[15px] leading-snug text-[#3c2415]/85 sm:grid-cols-[auto_1fr]">
+                <dt className="font-black text-[#3c2415]">Location</dt>
+                <dd>{locationRule(site)}</dd>
+                <dt className="font-black text-[#3c2415]">Year</dt>
+                <dd>{yearRule(site)}</dd>
+              </dl>
+            </section>
           </>
         )}
 
@@ -826,15 +915,17 @@ export default function App() {
                     YEAR
                   </div>
                   <div className="mt-1 font-black text-[20px] leading-none">
-                    {site.photoYear == null
-                      ? "No date on file"
-                      : lastYearGuess == null
-                        ? "No year entered"
-                        : `${Math.abs(lastYearGuess - site.photoYear)} yr off`}
+                    {yearOutcome}
                   </div>
                   <div className="mt-1 text-[13px] font-bold text-[#8b5a2b]">
                     +{lastYearPoints} of {MAX_YEAR_POINTS}
                   </div>
+                  {yearScored != null && (
+                    <div className="mt-1.5 text-[12px] leading-snug text-[#3c2415]/70">
+                      Photo dated <b className="text-[#3c2415]">{displayYear}</b>
+                      {lastYearGuess != null && <> · you said {lastYearGuess}</>}
+                    </div>
+                  )}
                 </div>
                 <div className="rounded-2xl bg-[#3c2415] text-[#fff8e7] p-3">
                   <div className="text-[10px] font-black tracking-widest text-[#d4a574]">
@@ -860,7 +951,6 @@ export default function App() {
                 value={sliderValue}
                 onChange={setSliderValue}
                 className="bg-gradient-to-br from-[#a8c686] via-[#d4a574] to-[#fff8e7]"
-                style={{ height: "clamp(220px, 46vh, 460px)" }}
               />
               <div className="grid grid-cols-2 border-t border-[#d4a574]/30">
                 <div className="hhh-result-caption bg-[#fff8e7] text-center flex flex-col items-center justify-center">
@@ -919,6 +1009,21 @@ export default function App() {
                 <div className="text-[12px] leading-snug text-[#3c2415]/70">
                   Gold star = true location. Dashed line = your error.
                 </div>
+                {/* Answer page only: on the guess page this would give the
+                    location away. */}
+                {site.googleMapUrl && (
+                  <a
+                    href={site.googleMapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex w-full items-center justify-between gap-3 rounded-2xl border border-[#d4a574]/40 bg-[#fff8e7] px-4 py-3 text-[14px] font-bold text-[#3c2415] transition hover:bg-[#f2e3c4]"
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-[#8b5a2b]" /> View on Google Maps
+                    </span>
+                    <ArrowRight className="h-4 w-4 shrink-0 text-[#8b5a2b]" />
+                  </a>
+                )}
               </div>
             </section>
 
@@ -1014,7 +1119,7 @@ export default function App() {
                         className="bg-white rounded-xl border border-[#d4a574]/30 p-3"
                       >
                         <div className="text-[10px] font-bold tracking-widest text-[#8b5a2b]">
-                          {landmark.photoYear ?? "Date unknown"} • SITE {i + 1}
+                          {dateLabel(landmark)} • SITE {i + 1}
                         </div>
                         <div className="text-[12px] font-bold leading-tight mt-1 line-clamp-2">
                           {landmark.shortTitle}
