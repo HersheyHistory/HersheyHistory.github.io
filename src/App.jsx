@@ -922,7 +922,8 @@ export default function App() {
                   </div>
                   {yearScored != null && (
                     <div className="mt-1.5 text-[12px] leading-snug text-[#3c2415]/70">
-                      Photo dated <b className="text-[#3c2415]">{displayYear}</b>
+                      {/* Not "photo dated": some sites score a build year. */}
+                      The answer: <b className="text-[#3c2415]">{displayYear}</b>
                       {lastYearGuess != null && <> · you said {lastYearGuess}</>}
                     </div>
                   )}

@@ -12,16 +12,20 @@ back to a decorative gradient.
 | Site | then | now |
 |---|---|---|
 | Hotel Hershey | `hotel-hershey-then.jpg` | `hotel-hershey-now.jpg` |
-| 743 & Cocoa | `cocoa-743-then.jpg` | `cocoa-743-now.jpg` |
+| Giant field (743 & Cocoa) | `giant-field-then.jpg` | `giant-field-now.jpg` |
 | State Police Academy | `police-academy-then.jpg` | `police-academy-now.jpg` |
-| Hocker House | `hocker-house-then.jpg` | *missing* |
+| Hocker House | `hocker-house-then.jpg` | `hocker-house-now.jpg` |
+
+The Hocker House historic print is cropped to the photograph itself; the scan
+showed it on a grey mounting card, which looked wrong beside a full-frame
+present-day photo in the slider.
 
 The Hotel Hershey pair is **registered**: the historic photo is cropped to exactly
 the area the present-day aerial covers, so the two line up in the slider at any
 screen size. Replacing either photo means redoing that crop.
 
 **Yellow circles.** When the Historical Society marks what to look for with a
-yellow ring (743 & Cocoa's historic aerial), `tools/text_to_landmarks.py` finds
+yellow ring (both Giant field photos), `tools/text_to_landmarks.py` finds
 it automatically and records where it sits (`thenFocus` / `nowFocus` in
 `landmarks.json`). The game then keeps it in view, and if both photos of a pair
 are circled it lines the circles up in the slider. Circled photos also skip the
@@ -47,16 +51,13 @@ Keep them here so they are not lost:
 
 ## Still needed
 
-- **A present-day photo of the Hocker House.** The photo supplied on 2026-09-29
-  shows the Masonic Temple across the intersection, not the house. The house is
-  on the southeast corner of Hockersville and Governor roads; the Street View
-  link supplied with it faces north-northeast, away from it.
-- **Which spot is the answer for 743 & Cocoa?** The game scores guesses against
-  the intersection (40.267189, -76.647889). The Google Maps link supplied on
-  2026-09-29 pins 232 Peach Ave, 0.22 miles away. If that is the house in the
-  yellow circle, the coordinates should move there.
-- **`nowYear`** for 743 & Cocoa, the Police Academy and the Hocker House. The
-  Police Academy's Street View capture is stamped "Image capture: Nov 2018".
+- **Which spot is the answer for Giant field?** The game scores guesses against
+  the 743 & Cocoa intersection (40.267189, -76.647889), from the Historical
+  Society's original document. The historic photo now says "Find this house for
+  a perfect score", and the Google Maps link pins 232 Peach Ave, 0.22 miles
+  away — so a player who finds the circled house exactly scores 800, not 1,000.
+- **Hocker House: 1806 or 1809?** It is scored against 1809 (the build year),
+  but its own history text says "Built in 1806".
 
 ## A note on the present-day photos
 

@@ -60,6 +60,41 @@ FLOAT = {"lat", "lng"}
 NOTES = []
 
 
+def read_text(path):
+    """Read the form in whatever encoding it was saved in.
+
+    Modern editors save UTF-8. Older Mac editors save Mac Roman with classic
+    lone-CR line endings, and older Windows ones save cp1252; both decode any
+    byte, so pick whichever turns the high bytes into typographic punctuation
+    (curly quotes, dashes, degree signs) rather than accented capitals."""
+    raw = Path(path).read_bytes()
+    try:
+        return raw.decode("utf-8-sig"), "UTF-8"
+    except UnicodeDecodeError:
+        pass
+    good, bad = set("“”‘’–—…°"), set("ÒÓÔÕÐ¡ìî")
+    best = None
+    for enc, label in (("mac_roman", "Mac Roman"), ("cp1252", "Windows-1252")):
+        text = raw.decode(enc, errors="replace")
+        score = sum(ch in good for ch in text) - sum(ch in bad for ch in text)
+        if best is None or score > best[0]:
+            best = (score, text, label)
+    return best[1], best[2]
+
+
+def normalise_photo(path):
+    """Web servers treat file names as case-sensitive, and every photo in the
+    project is kept as a lower-case .jpg, so "Hotel-Hershey-now.png" means
+    images/hotel-hershey-now.jpg. A bare file name gets the images/ folder."""
+    p = path.strip().replace("\\", "/")
+    stem, dot, ext = p.rpartition(".")
+    if dot and ext.lower() in ("png", "jpeg", "jpg", "webp"):
+        p = stem + ".jpg"
+    if "/" not in p:
+        p = "images/" + p
+    return p.lower()
+
+
 def clean(text, where=""):
     """Normalise a multi-paragraph field: trim, collapse runs of blank lines,
     and drop a paragraph that exactly repeats an earlier one in the same field
@@ -158,6 +193,25 @@ def parse_block(lines, where):
         url = url if re.match(r"https?://", url) else "https://" + url
         site["googleMapUrl"] = quote(url, safe=":/?&=%#@!$'()*+,;~[]-._")
 
+    # Photo names, as the website will look them up.
+    for field in ("thenImage", "nowImage"):
+        given = (site.get(field) or "").strip()
+        if given:
+            site[field] = normalise_photo(given)
+            if site[field] != given:
+                NOTES.append(f": photo {given!r} read as {site[field]!r}")
+
+    # PHOTO YEAR may carry the date as the Society writes it ("Circa 1962").
+    # That says the same thing as YEAR SCORING, so treat it that way.
+    py = site.get("photoYear")
+    if isinstance(py, str) and py.strip() and not py.strip().isdigit():
+        m = re.search(r"\b(\d{4})\b", py)
+        if not m:
+            raise SystemExit(f"{name()}: PHOTO YEAR needs a four-digit year, got {py!r}")
+        if not (site.get("yearScoring") or "").strip():
+            site["yearScoring"] = py.strip()
+        site["photoYear"] = m.group(1)
+
     # YEAR SCORING: the photo's date as the Society writes it ("circa 1925").
     # It must contain a year to score against; any words are shown to players
     # alongside the date on the answer page.
@@ -254,8 +308,8 @@ def main():
     check_only = "--check" in sys.argv
     in_path = Path(args[0]) if args else DEFAULT_IN
 
-    text = io.open(in_path, encoding="utf-8-sig").read()
-    lines = text.splitlines()
+    text, encoding = read_text(in_path)
+    lines = text.splitlines()  # copes with Windows, Unix and old-Mac line endings
 
     # Split into blocks on the ##### rules; the header before the first rule is dropped.
     blocks, current = [], None
@@ -283,7 +337,7 @@ def main():
             continue
         live.append(to_json_site(site, len(live) + 1))
 
-    print(f"read {in_path.name}: {len(live) + len(skipped)} sites in file")
+    print(f"read {in_path.name} ({encoding}): {len(live) + len(skipped)} sites in file")
     for s in live:
         flags = []
         if s.get("yearScoring"):
