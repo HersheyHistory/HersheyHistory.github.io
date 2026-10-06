@@ -1,0 +1,181 @@
+HERSHEY HISTORY HUNT - SITE INFORMATION
+=======================================
+
+HOW TO USE THIS FILE
+
+  * Each site is a block between the ########... lines. One block per site.
+  * Every line is a LABEL, a colon, and the value. Type your answer after
+    the colon. Where it is blank, we don't have that information yet.
+  * HISTORY and FULL HISTORY can run to several paragraphs. Put a blank
+    line between paragraphs. They continue until the next LABEL.
+  * Please leave the LABELS themselves alone. Change the LATITUDE,
+    LONGITUDE and photo file lines only if you mean to.
+  * Save as plain text (.txt) when you are done.
+
+WHAT EACH LABEL MEANS
+
+  TITLE               Full name, shown on the answer page.
+  SHORT TITLE         Short name for the final score screen.
+  PHOTO YEAR          Four-digit year the OLD photo was taken. Players are
+                      scored against this. Leave blank if unknown - they
+                      then get full marks for the year.
+  NOW PHOTO YEAR      Year the present-day photo was taken.
+  HINT                One line shown to players BEFORE they guess.
+                      Do not give away the name of the place.
+  HISTORIC LABEL      Caption under the old photo on the answer page.
+  MODERN LABEL        Caption under the present-day photo.
+  LATITUDE/LONGITUDE  Where the site is. A site with these blank stays out
+                      of the game until they are filled in.
+  THEN PHOTO          File name of the old photo.
+  NOW PHOTO           File name of the present-day photo.
+  ARCHIVE LINK        Text and web address of the PastPerfect search shown
+                      under "More historical images". Add another pair of
+                      lines for a second link.
+  HISTORY             The story shown on the answer page.
+  FULL HISTORY        Longer version behind the "Read full story" button.
+                      Optional.
+
+
+##############################################################################
+SITE 1
+##############################################################################
+TITLE: The Hotel Hershey
+SHORT TITLE: Hotel Hershey
+PHOTO YEAR: 
+NOW PHOTO YEAR: 
+HINT: There are two reflecting pools behind this building that used to be the town water supply, each 13 feet and holding 1 million of gallons of water combined. 
+
+
+There are two reflecting pools behind this building that used to be the town water supply, each 13 feet and holding 1 million of gallons of water combined.
+
+The property has been expanded greatly over the years. 
+
+A “hill climb” car race was held behind it for many years.
+
+HISTORIC LABEL: The Hotel Hershey
+MODERN LABEL: The Hotel Hershey
+LATITUDE: 40.299722
+LONGITUDE: -76.659722
+THEN PHOTO: images/hotel-hershey-then.jpg
+NOW PHOTO: images/hotel-hershey-now.jpg
+ARCHIVE LINK LABEL: Search the Historical Society archive
+ARCHIVE LINK URL: https://hersheyhistory.pastperfectonline.com/bysearchterm?keyword=Hotel%20Hershey
+
+HISTORY:
+This building still remains, is still beautiful, and is used by many, especially during the summer months. It was built during the depression and was designed after a building Milton Hershey saw in the Mediterranean. If you have been to Hershey and looked around you can easily see this building. It sits on “Pat’s Hill”, although the history behind the name of the hill is a mystery.  From this building you can see Hersheypark, the Milton S Hershey Medical Center, the Hershey factory smokestacks, and almost all of Hershey.
+
+
+
+FULL HISTORY:
+
+It originally had 170 rooms
+It was completed during the depression, one of many projects M S Hershey did to both build things cheaply and keep people employed. Other 1930s projects included the Hershey Arena (now Hersheypark Arena) and the Hershey Community Center, which still remains but is not open to the public.
+It was based on a 30 room hotel Mr Hershey saw in the Mediterranean that overlooked the ocean.
+During the depression it was reportedly so empty that someone rode a horse across the lobby and down the hallways. 
+The Circular Dining Room was built so nobody would have to sit in a corner (nobody puts Baby in a corner!). Nobody had a bad seat. 
+The Fountain Lobby was based on Mr Hershey’s love of Cuba, where he had a large sugar plantation.
+It is currently an AAA Four Diamond rated resort. 
+
+
+
+
+##############################################################################
+SITE 2
+##############################################################################
+TITLE: Route 743 and Cocoa Avenue
+SHORT TITLE: 743 & Cocoa
+PHOTO YEAR: 
+NOW PHOTO YEAR: 
+HINT: You could once buy a car here.
+
+You can grocery shop here now.
+
+Movies used to be close by.
+
+Now you can see a doctor where the movies were.
+HISTORIC LABEL: 743 and Cocoa Avenue
+MODERN LABEL: The Intersection
+LATITUDE: 40.267189
+LONGITUDE: -76.647889
+THEN PHOTO: images/cocoa-743-then.jpg
+NOW PHOTO: images/cocoa-743-now.jpg
+ARCHIVE LINK LABEL: Search the Historical Society archive
+ARCHIVE LINK URL: https://hersheyhistory.pastperfectonline.com/AdvancedSearch?advanceSearchActivated=False&firstTimeSearch=False&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=&searchcat_5=743+cocoa&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=&actionType=Search
+
+HISTORY:
+There is very little in this photograph that remains, but there ARE some things still there. What you are trying to find is the house in the yellow circle (not because it is important, but because it is still here and can be identified). This is a major intersection in Derry Township and now has a traffic light. If you live in the Hershey Area you may have been at this intersection to eat or shop. There have been 2 large businesses on the triangular corner in the past 40 years or so.
+
+FULL HISTORY:
+There is very little in this photograph that remains, but there ARE some things still there. What you are trying to find is the house in the yellow circle (not because it is important, but because it is still here and can be identified).
+
+This is a major intersection in Derry Township and now has a traffic light. If you live in the Hershey Area you may have been at this intersection to eat or shop. There have been 2 large businesses on the triangular corner in the past 40 years or so.
+
+
+
+
+
+
+##############################################################################
+SITE 3
+##############################################################################
+TITLE: The State Police Academy
+SHORT TITLE: Police Academy
+PHOTO YEAR: 
+NOW PHOTO YEAR: 
+HINT: There was a shooting range behind this building!
+
+The horses were for the occupants to use as part of their jobs
+
+You can swim near here.
+
+If you are a Hershey student you will have gone to school near here too–-all grades.
+HISTORIC LABEL: The State Police Academy
+MODERN LABEL: The Site
+LATITUDE: 40.280889
+LONGITUDE: -76.646667
+THEN PHOTO: images/police-academy-then.jpg
+NOW PHOTO: images/police-academy-now.jpg
+ARCHIVE LINK LABEL: Search the Historical Society archive
+ARCHIVE LINK URL: https://hersheyhistory.pastperfectonline.com/AdvancedSearch?advanceSearchActivated=False&firstTimeSearch=False&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=&searchcat_5=police+academy&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=&actionType=Search
+
+HISTORY:
+Another building that has been gone for decades, but the occupants moved to a new, larger building that is still in Derry Township, and now are building an even newer one. There was also a building with this one that boarded horses for the occupants (it is not a farm!)
+
+FULL HISTORY:
+Another building that has been gone for decades, but the occupants moved to a new, larger building that is still in Derry Township, and now are building an even newer one. There was also a building with this one that boarded horses for the occupants (it is not a farm!)
+
+
+
+
+
+
+##############################################################################
+SITE 4
+##############################################################################
+TITLE: The Hocker House
+SHORT TITLE: Hocker House
+PHOTO YEAR: 
+NOW PHOTO YEAR: 
+HINT: You can buy gas across the street.
+
+666
+
+Does Don’s Pier ring a bell? It was across the street for decades. It’s been an empty lot for decades too.
+
+HISTORIC LABEL: The Hocker House
+MODERN LABEL: The Hocker House
+LATITUDE: 40.273068
+LONGITUDE: -76.655938
+THEN PHOTO: images/hocker-house-then.jpg
+NOW PHOTO: 
+ARCHIVE LINK LABEL: Search the Historical Society archive
+ARCHIVE LINK URL: https://hersheyhistory.pastperfectonline.com/advancedsearch?utf8=%E2%9C%93&advanceSearchActivated=true&firstTimeSearch=true&search_include_objects=true&search_include_archives=true&search_include_library=true&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=&searchcat_5=&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=%22HOUSE+%2F+HOCKER%22&searchButton=Search
+
+HISTORY:
+Built in 1806, long before Hershey ever existed, this house still stands at a major intersection. It is built of brownstone, a common building material around here because there were large brownstone quarries nearby. The house still looks very much like this, but the porch is different. It is still above the level of the road, but a low stone wall now surrounds it. The town it was in was named after the first resident of this house, and some still call the area by that name.
+
+FULL HISTORY:
+Built in 1806, long before Hershey ever existed, this house still stands at a major intersection. It is built of brownstone, a common building material around here because there were large brownstone quarries nearby. The house still looks very much like this, but the porch is different. It is still above the level of the road, but a low stone wall now surrounds it. The town it was in was named after the first resident of this house, and some still call the area by that name.
+
+
+
