@@ -97,29 +97,29 @@ WHAT EACH LABEL MEANS
 
   TITLE               Full name, shown on the answer page.
   SHORT TITLE         Short name for the final score screen.
-  PHOTO YEAR          Four-digit year the OLD photo was taken. Players are
-                      scored against this. Leave blank if unknown - they
-                      then get full marks for the year.
-  NOW PHOTO YEAR      Year the present-day photo was taken.
-  YEAR SCORING        Optional. Leave blank to score against PHOTO YEAR as
-                      usual (1 point off per year). Write "circa 1925" when
-                      the date is approximate: a guess in the right decade
-                      scores full marks, and each decade off costs 25.
-                      Any words written here are shown with the date.
-  LOCATION SCORING    Optional. Leave blank for the usual rule (100 points
-                      off per tenth of a mile). For a far-off site, write
-                      e.g. "1 point per mile" or "0.01 points per mile".
   HINT                Shown to players BEFORE they guess. One hint per
                       line; add as many as you like. Do not give away the
                       name of the place.
   HISTORIC LABEL      Caption under the old photo on the answer page.
   MODERN LABEL        Caption under the present-day photo.
-  LATITUDE/LONGITUDE  Where the site is. A site with these blank stays out
-                      of the game until they are filled in.
+  LATITUDE/LONGITUDE  The exact spot players are scored against. A site
+                      with these blank stays out of the game.
   THEN PHOTO          File name of the old photo.
+  PHOTO YEAR          The year players guess (when the photo was taken,
+                      or when the place was built - say which in a hint).
+                      Write "Circa 1925" when it is approximate: a guess
+                      in the right decade scores full marks, and each
+                      decade off costs 25. Any words are shown with the
+                      date. Leave blank if unknown: everyone then gets
+                      full marks for the year.
   NOW PHOTO           File name of the present-day photo.
-  GOOGLE MAP          Link to the site on Google Maps. Not shown to
-                      players yet; kept for reference.
+  NOW PHOTO YEAR      Year the present-day photo was taken.
+  LOCATION SCORING    Optional. Leave blank for the usual rule (100 points
+                      off per tenth of a mile). For a far-off site, write
+                      e.g. "1 point per mile" or "0.01 points per mile".
+  GOOGLE MAP          Link shown on the answer page as "View on Google
+                      Maps". Should point at the same spot as LATITUDE
+                      and LONGITUDE.
   ARCHIVE LINK        Text and web address of the PastPerfect search shown
                       under "More historical images". Add another pair of
                       lines for a second link.
@@ -144,20 +144,23 @@ def block(number, site, note=None):
     lines = [RULE, f"SITE {number}", RULE]
     if note:
         lines.append(f"({note})")
+    # Laid out the way the form comes back from the Historical Society: each
+    # year beside its photo, and "Circa 1925" written straight into PHOTO YEAR
+    # (text_to_landmarks.py also still accepts a separate YEAR SCORING line).
     lines += [
         f"TITLE: {fmt(site.get('title'))}",
         f"SHORT TITLE: {fmt(site.get('shortTitle'))}",
-        f"PHOTO YEAR: {fmt(site.get('photoYear'))}",
-        f"NOW PHOTO YEAR: {fmt(site.get('nowYear'))}",
-        f"YEAR SCORING: {fmt(site.get('yearScoring'))}",
-        f"LOCATION SCORING: {per_mile(site.get('pointsPerMile'))}",
         f"HINT: {fmt(site.get('hint'))}",
+        "",
         f"HISTORIC LABEL: {fmt(site.get('historicLabel'))}",
         f"MODERN LABEL: {fmt(site.get('modernLabel'))}",
         f"LATITUDE: {fmt(site.get('lat'))}",
         f"LONGITUDE: {fmt(site.get('lng'))}",
         f"THEN PHOTO: {fmt(site.get('thenImage'))}",
+        f"PHOTO YEAR: {fmt(site.get('yearScoring') or site.get('photoYear'))}",
         f"NOW PHOTO: {fmt(site.get('nowImage'))}",
+        f"NOW PHOTO YEAR: {fmt(site.get('nowYear'))}",
+        f"LOCATION SCORING: {per_mile(site.get('pointsPerMile'))}",
         f"GOOGLE MAP: {fmt(site.get('googleMapUrl'))}",
     ]
     links = site.get("archiveLinks") or [{"label": "", "url": ""}]

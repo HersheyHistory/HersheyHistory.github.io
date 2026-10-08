@@ -45,7 +45,7 @@
         "url": "https://hersheyhistory.pastperfectonline.com/AdvancedSearch?advanceSearchActivated=False&firstTimeSearch=False&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=&searchcat_5=743+cocoa&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=&actionType=Search"
       }
     ],
-    "googleMapUrl": "https://www.google.com/maps/place/232+Peach+Ave,+Hershey,+PA+17033/@40.2687882,-76.6488467,654a,35y,98.05h/data=!3m1!1e3!4m6!3m5!1s0x89c8bb57438289b3:0x3c4482f646d1f67a!8m2!3d40.2678894!4d-76.6519805!16s%2Fg%2F11c194s5_k!5m1!1e4?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D",
+    "googleMapUrl": "https://www.google.com/maps/search/?api=1&query=40.267189%2C-76.647889",
     "thenFocus": {
       "x": 0.588,
       "y": 0.101
@@ -83,11 +83,11 @@
     "id": 4,
     "title": "The Hocker House",
     "shortTitle": "Hocker House",
-    "photoYear": 1809,
+    "photoYear": 1806,
     "nowYear": 2026,
     "lat": 40.273068,
     "lng": -76.655938,
-    "hint": "You can buy gas across the street.\n\n666\n\nDoes Don’s Pier ring a bell? It was across the street for decades. It’s been an empty lot for decades too.\n\nYou are guessing the build date of the house.",
+    "hint": "You can buy gas across the street.\n\nRight across the street from the 666 building\n\nDoes Don’s Pier ring a bell? It was across the street for decades. It’s been an empty lot for decades too.\n\nYou are guessing the build date of the house.",
     "history": "Built in 1806, long before Hershey ever existed, this house still stands at a major intersection. It is built of brownstone, a common building material around here because there were large brownstone quarries nearby. The house still looks very much like this, but the porch is different. It is still above the level of the road, but a low stone wall now surrounds it. The town it was in was named after the first resident of this house, and some still call the area by that name.",
     "historicLabel": "The Hocker House",
     "modernLabel": "The Hocker House",

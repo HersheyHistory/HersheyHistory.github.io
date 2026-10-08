@@ -49,15 +49,15 @@ Keep them here so they are not lost:
 - **Round Barn** — `https://hersheyhistory.pastperfectonline.com/AdvancedSearch?advanceSearchActivated=False&firstTimeSearch=False&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=%22round+barn%22&searchcat_5=&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=&actionType=Search`
 - **DeCarlo's** — `https://hersheyhistory.pastperfectonline.com/advancedsearch?utf8=%E2%9C%93&advanceSearchActivated=true&firstTimeSearch=true&search_include_objects=true&search_include_archives=true&search_include_library=true&search_include_photos=true&search_include_creators=true&search_include_people=true&search_include_containers=true&searchcat_1=&searchcat_2=&searchcat_3=&searchcat_4=&searchcat_5=&searchcat_6=&searchcat_7=&searchcat_8=&searchcat_9=&searchcat_10=&searchcat_11=&searchcat_12=%22BUSINESS+%2F+DECARLO%27S+RESTAURANT%22&searchButton=Search`
 
-## Still needed
+## Settled
 
-- **Which spot is the answer for Giant field?** The game scores guesses against
-  the 743 & Cocoa intersection (40.267189, -76.647889), from the Historical
-  Society's original document. The historic photo now says "Find this house for
-  a perfect score", and the Google Maps link pins 232 Peach Ave, 0.22 miles
-  away — so a player who finds the circled house exactly scores 800, not 1,000.
-- **Hocker House: 1806 or 1809?** It is scored against 1809 (the build year),
-  but its own history text says "Built in 1806".
+- **Giant field's answer is the circled house.** Its coordinates
+  (40.267189, -76.647889), from the Historical Society's original document, sit
+  on the orange-roofed house inside the yellow circle, about 45 m south-west of
+  where Cocoa Ave meets Fishburn Rd. Checked against satellite imagery and the
+  street labels on the circled photo, 2026-10-08. The Google Maps link
+  previously pinned 232 Peach Ave, a different house 350 m west; it now points
+  at the circled house.
 
 ## A note on the present-day photos
 
