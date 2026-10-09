@@ -1,5 +1,10 @@
 
-GitHub and Netlify builds work fine. On laptop say:
+The game lives at https://hersheyhistory.github.io/ and is built by GitHub
+Actions from HersheyHistory/HersheyHistory.github.io. Publishing is just:
 
+git push origin master
 
-$env:VITE_BASE_PATH = "/hershey-02/"; npx vite build
+The site is at the root of its address, so a plain build on the laptop is
+exactly what GitHub builds:
+
+npx vite build
