@@ -29,12 +29,17 @@ jobs:
 
       - run: npm ci
 
-      - name: Build for the /hershey-02/ subfolder
+      # Ask GitHub where this repository's Pages site lives, rather than
+      # writing the path in: "/hershey-02" for a project site, "" for a
+      # <owner>.github.io site at the root. The build then follows the
+      # repository through any rename or transfer.
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build for the site's address
         run: npm run build
         env:
-          VITE_BASE_PATH: /hershey-02/
-
-      - uses: actions/configure-pages@v5
+          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
 
       - uses: actions/upload-pages-artifact@v3
         with:
