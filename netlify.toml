@@ -1,5 +1,0 @@
-# Build settings for Netlify. Keeping them here rather than in the dashboard
-# means the deploy config is versioned alongside the code it builds.
-[build]
-  command = "npm run build"
-  publish = "dist"
